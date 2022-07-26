@@ -5,32 +5,28 @@ import random
 import math
 import matplotlib.pyplot as plt
 
-DataSet=np.zeros((10000,3))
+DataSet=np.zeros((1000,3))
 
-for i in range(10000):
-    DataSet[i,0] = random.randint(100, 250)
-    DataSet[i,2] = random.randint(5, 450)/10
-print(DataSet)
-
-Velocity=DataSet[:,0]
+for i in range(1000):
+    DataSet[i,2] = random.randint(0,45)
+    DataSet[i,1] = random.randint(50,200)
 Angle=DataSet[:,2]
-
-
-
-for i in range(len(Velocity)):
+Vel=DataSet[:,1]
+for i in range(len(Angle)):
     y=0
     x=0
-    Vx=Velocity[i]*math.cos(math.pi*Angle[i]/180)
-    Vy=Velocity[i]*math.sin(math.pi*Angle[i]/180)
+    Vx=Vel[i]*math.cos(math.pi*Angle[i]/180)
+    Vy=Vel[i]*math.sin(math.pi*Angle[i]/180)
     while y>=0:
-       Vx=Vx-(1.2258/2*pow(Vx,2)*0.02)*0.01
-       Vy=Vy-(1.2258/2*pow(Vy,2)*0.02+9.81)*0.01
-       x=x+Vx*0.1
-       y=y+Vy*0.1
-       DataSet[i,1]=x
+       Vx=Vx-(1.2258*pow(Vx,2)/2*0.0005)*0.01
+       Vy=Vy-(1.2258*(Vy*abs(Vy))/2*0.0005+9.81)*0.01
+       x=x+Vx*0.01
+       y=y+Vy*0.01
+       DataSet[i,0]=x
+print(Angle)
+Lenght=DataSet[:,0]
+
+plt.plot(Angle,Lenght)
+
 print(DataSet)
-Lenght=DataSet[:,1]
-
-plt.plot(Lenght)
-
 np.savetxt("DataSet.csv", DataSet, delimiter=",")

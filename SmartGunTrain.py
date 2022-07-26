@@ -5,20 +5,29 @@ import math
 import matplotlib.pyplot as plt
 
 DataSet=np.genfromtxt("DataSet.csv", delimiter=",")
-Input = DataSet[:,0:2]
-Output =  DataSet[:,2]
 
+print(DataSet)
+Input = DataSet[:,0:2]
+Output = DataSet[:,2]
+print(Input)
 
 model = tf.keras.models.Sequential([
-  tf.keras.layers.Dense(10, activation='relu'),
-  tf.keras.layers.Dense(1000, activation='linear'),
-  tf.keras.layers.Dense(1000, activation='linear'),
-  tf.keras.layers.Dense(100, activation='linear'),
-  tf.keras.layers.Dense(1, activation='linear')
+  tf.keras.layers.Dense(50, activation='linear',input_dim=2),
+  tf.keras.layers.Dense(300, activation='elu'),
+  tf.keras.layers.Dense(500, activation='elu'),
+  tf.keras.layers.Dropout(0.1),
+  tf.keras.layers.Dense(20, activation='relu'),
+  tf.keras.layers.Dense(1)
 ])
 
-model.compile(optimizer='adam', loss='mean_absolute_error', metrics=['accuracy'])
+model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=0.0001), loss='mse', metrics=['acc'])
 print(len(Output))
-model.fit(Input, Output, epochs=25)
+model.fit(Input, Output, epochs=5000)
+plt.plot(Input,Output)
+outputT=model.predict(Input)
 
+print(outputT)
+plt.plot(Input,outputT)
+
+plt.show()
 model.save('GunNet')
