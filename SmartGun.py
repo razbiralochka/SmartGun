@@ -3,6 +3,7 @@ import numpy as np
 import random
 import math
 import matplotlib.pyplot as plt
+
 GunNet = tf.keras.models.load_model('GunNet')
 
 L=input("Distanse to Target: ")
@@ -25,7 +26,12 @@ while y>=0:
     x=x+Vx*0.01
     y=y+Vy*0.01
 plt.plot(X,Y)
+plt.plot([0,max(X)], [0,0], color='green', label='ground') # Ground line, y = 0
 plt.axis('equal')
+
 print('Angle: ',Angle)
 print('x: ',x)
-print('Delta',(x-L))  
+print('Delta',(x-L))
+
+plt.legend(loc=2)
+plt.show()
